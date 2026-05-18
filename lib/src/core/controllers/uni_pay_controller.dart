@@ -91,7 +91,7 @@ class UniPayControllers {
       // On success go back to the app screen
 
       if (uniPayStatus.isSuccess) {
-        UniPayControllers.context.uniParentPop();
+        // UniPayControllers.context.uniParentPop();
       }
       // On failed go back to the payment screen again!
       else {
