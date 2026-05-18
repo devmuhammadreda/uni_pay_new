@@ -34,6 +34,8 @@ class _UniPayCouponFieldViewState extends State<UniPayCouponFieldView> {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final tokens = context.uniPayTokens;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 13.rh,
@@ -45,10 +47,10 @@ class _UniPayCouponFieldViewState extends State<UniPayCouponFieldView> {
           },
           child: Text(
             UniPayText.doYouHaveCoupon,
-            style: UniPayTheme.uniPayStyle.copyWith(
+            style: UniPayTheme.uniPayStyle(context).copyWith(
               fontWeight: FontWeight.w500,
               fontSize: 13.rSp,
-              color: UniPayColorsPalletes.primaryColor,
+              color: scheme.primary,
             ),
           ),
         ),
@@ -70,8 +72,8 @@ class _UniPayCouponFieldViewState extends State<UniPayCouponFieldView> {
                         controller: UniPayControllers.couponTextController,
                         onValChange: widget.couponCredential.onCouponValChanged,
                         fillColor: isTextNotEmpty
-                            ? UniPayColorsPalletes.white
-                            : UniPayColorsPalletes.greyBorderColor,
+                            ? scheme.surface
+                            : tokens.greyBorderColor,
                         hintText: widget.couponCredential.hintText ??
                             UniPayText.enterCouponCodeHere,
                         prefixIcon: Padding(
@@ -103,14 +105,14 @@ class _UniPayCouponFieldViewState extends State<UniPayCouponFieldView> {
                               animationStatus: isCouponApplied,
                               shownIfFalse: Text(
                                 UniPayText.apply,
-                                style: UniPayTheme.uniPayStyle.copyWith(
+                                style: UniPayTheme.uniPayStyle(context).copyWith(
                                   fontWeight: FontWeight.w500,
                                   fontSize: 12.rSp,
                                   color: isCouponApplied
-                                      ? UniPayColorsPalletes.cyan
+                                      ? tokens.cyan
                                       : isTextValid
-                                          ? UniPayColorsPalletes.primaryColor
-                                          : UniPayColorsPalletes.greyTextColor,
+                                          ? scheme.primary
+                                          : tokens.greyText,
                                 ),
                               ),
                               shownIfTrue: _couponIconWidget("check", true),
@@ -118,7 +120,7 @@ class _UniPayCouponFieldViewState extends State<UniPayCouponFieldView> {
                             child: SizedBox(
                               width: 15.rSp,
                               height: 15.rSp,
-                              child: UniPayDesignSystem.loadingIndicator(),
+                              child: UniPayDesignSystem.loadingIndicator(context),
                             ),
                           ),
                         ),

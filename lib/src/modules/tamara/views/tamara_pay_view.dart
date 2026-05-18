@@ -30,14 +30,14 @@ class _UniPayTamaraState extends State<UniPayTamara> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: UniPayDesignSystem.appBar(
+      appBar: UniPayDesignSystem.appBar(context,
           title: UniPayText.checkoutByTamara, isFromRoot: widget.isFromRoot),
       body: ValueListenableBuilder(
         valueListenable: UniPayControllers.tamaraNotifier,
-        builder: (_, status, __) {
+        builder: (ctx, status, __) {
           final tamaraCheckout = UniPayControllers.tamaraCheckout;
           if (status.isLoading) {
-            return UniPayDesignSystem.loadingIndicator();
+            return UniPayDesignSystem.loadingIndicator(ctx);
           } else if (status.isSuccess && tamaraCheckout.isSuccess) {
             final tamaraCredential =
                 UniPayControllers.uniPayData.credentials.tamaraCredential!;
@@ -76,6 +76,7 @@ class _UniPayTamaraState extends State<UniPayTamara> {
             );
           } else {
             return UniPayDesignSystem.errorView(
+              ctx,
               title: UniPayText.paymentFailedByTamara,
             );
           }

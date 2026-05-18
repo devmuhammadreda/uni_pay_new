@@ -19,7 +19,7 @@ class _UniPayCardState extends State<UniPayCard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: UniPayDesignSystem.appBar(
+      appBar: UniPayDesignSystem.appBar(context,
           title: UniPayText.payWithCard, isFromRoot: widget.isFromRoot),
       body: ListView(
         padding: EdgeInsets.all(20.rSp),

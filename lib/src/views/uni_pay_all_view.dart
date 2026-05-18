@@ -24,7 +24,7 @@ class _UniPayGatewayViewState extends State<UniPayGatewayView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: UniPayDesignSystem.appBar(
+      appBar: UniPayDesignSystem.appBar(context,
           title: UniPayText.checkout, isFromRoot: true),
       body: _allPaymentView(),
     );
@@ -98,6 +98,7 @@ class _UniPayGatewayViewState extends State<UniPayGatewayView> {
 
                 // Pay Now Button
                 UniPayDesignSystem.primaryButton(
+                  context,
                   isBottomBarButton: true,
                   isDisabled: uniPayPaymentMethods.isNotSpecified,
                   title:

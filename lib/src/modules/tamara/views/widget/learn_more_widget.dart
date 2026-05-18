@@ -47,9 +47,9 @@ class _LearnMoreTamaraWidgetState extends State<LearnMoreTamaraWidget> {
             ),
             ValueListenableBuilder(
               valueListenable: _stateNotifier,
-              builder: (_, state, ___) => Visibility(
+              builder: (ctx, state, ___) => Visibility(
                 visible: state.isLoading,
-                child: UniPayDesignSystem.loadingIndicator(),
+                child: UniPayDesignSystem.loadingIndicator(ctx),
               ),
             ),
           ],

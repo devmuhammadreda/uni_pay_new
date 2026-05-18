@@ -36,19 +36,20 @@ class UniPaymentOptionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
     return Material(
-      color: UniPayColorsPalletes.transparent,
+      color: Colors.transparent,
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 15.rh),
         child: GestureDetector(
-          // overlayColor: UniPayColorsPalletes.transparentMaterialColor,
           onTap: () => onChange?.call(!currentStatus),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //* Checkbox
               UniPayDesignSystem.checkBox(
-                activeColor: activeColor ?? UniPayColorsPalletes.primaryColor,
+                context,
+                activeColor: activeColor ?? scheme.primary,
                 status: currentStatus,
                 onChange: onChange,
               ),
@@ -61,7 +62,7 @@ class UniPaymentOptionWidget extends StatelessWidget {
                   children: [
                     Text(
                       title,
-                      style: UniPayTheme.uniPayStyle,
+                      style: UniPayTheme.uniPayStyle(context),
                     ),
                     2.vs,
                     if (subTitleWidget != null)
@@ -70,18 +71,18 @@ class UniPaymentOptionWidget extends StatelessWidget {
                       RichText(
                         text: TextSpan(
                             text: "$subTitle ",
-                            style: UniPayTheme.uniPayStyle.copyWith(
+                            style: UniPayTheme.uniPayStyle(context).copyWith(
                               fontWeight: FontWeight.w400,
                               fontSize: 10.rSp,
-                              color: UniPayColorsPalletes.greyTextColor,
+                              color: context.uniPayTokens.greyText,
                             ),
                             children: [
                               if (onLearnMorePressed != null)
                                 TextSpan(
                                   text: UniPayText.learnMore,
-                                  style: UniPayTheme.uniPayStyle.copyWith(
+                                  style: UniPayTheme.uniPayStyle(context).copyWith(
                                     fontWeight: FontWeight.w500,
-                                    color: UniPayColorsPalletes.primaryColor,
+                                    color: scheme.primary,
                                     fontSize: 10.rSp,
                                     decoration: TextDecoration.underline,
                                   ),

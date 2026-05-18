@@ -41,6 +41,7 @@ export 'src/utils/uni_enums.dart';
 
 /// Views - Main view to process the payment with different payment gateways
 export 'src/views/uni_pay_view.dart';
+export 'src/views/uni_nav_keys.dart';
 
 /// Uni Apple Pay
 export 'src/modules/applepay/uni_apple_pay.dart';

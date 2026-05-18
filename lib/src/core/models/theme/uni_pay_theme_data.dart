@@ -1,36 +1,46 @@
-import 'dart:ui';
+import 'package:flutter/material.dart';
 
-import 'package:uni_pay/src/theme/colors.dart';
-import 'package:uni_pay/uni_pay.dart';
+import '../../../utils/uni_enums.dart';
 
+/// Appearance and copy overrides for UniPay flows.
+///
+/// [themeMode] controls light/dark (and OS **system**) for the nested
+/// UniPay [MaterialApp]. Defaults to following the device brightness.
+///
+/// [primaryColor] seeds the Flutter [ColorScheme] (brand primary).
 class UniPayThemeData {
-  /// Primary color of the UniPay theme.
-  late Color primaryColor;
+  /// Primary brand color — used as seed for light/dark [ColorScheme].
+  final Color primaryColor;
+
+  /// How the nested UniPay [MaterialApp] resolves light vs dark.
+  ///
+  /// Use [ThemeMode.system] to follow the host OS (default).
+  final ThemeMode themeMode;
 
   /// UI type for the payment view
-  late UniPayUIType uiType;
+  final UniPayUIType uiType;
 
   /// Header Title text
-  late String? headerTitle;
+  final String? headerTitle;
 
   /// Header Subtitle text
-  late String? headerSubtitle;
+  final String? headerSubtitle;
 
   /// App bar text
-  late String? appBarTitle;
+  final String? appBarTitle;
 
   /// Tabby header title text
-  late String? tabbyHeaderTitle;
+  final String? tabbyHeaderTitle;
 
   /// Tamara header title text
-  late String? tamaraHeaderTitle;
+  final String? tamaraHeaderTitle;
 
   /// Credit card header title text
-  late String? creditCardHeaderTitle;
+  final String? creditCardHeaderTitle;
 
-  /// Data constructor for `UniPayThemeData` with optional parameters
   UniPayThemeData({
-    this.primaryColor = UniPayColorsPalletes.purpleColor,
+    this.primaryColor = const Color(0xffEE174B),
+    this.themeMode = ThemeMode.system,
     this.uiType = UniPayUIType.modern,
     this.headerTitle,
     this.headerSubtitle,

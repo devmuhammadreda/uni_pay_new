@@ -8,7 +8,6 @@ import 'package:uni_pay/uni_pay.dart';
 import '../../constant/path.dart';
 import '../../core/controllers/uni_pay_controller.dart';
 import '../../theme/colors.dart';
-
 class PaymentResultView extends StatefulWidget {
   const PaymentResultView({Key? key, required this.paymentMethod})
       : super(key: key);
@@ -60,6 +59,7 @@ class _PaymentResultViewState extends State<PaymentResultView> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: UniPayDesignSystem.appBar(
+          context,
           leading: Container(),
           title: UniPayText.paymentStatus,
         ),
@@ -80,7 +80,7 @@ class _PaymentResultViewState extends State<PaymentResultView> {
               padding: EdgeInsets.symmetric(horizontal: 20.rw),
               child: Text(
                 getPaymentStatusTitle(),
-                style: UniPayTheme.uniPayStyle,
+                style: UniPayTheme.uniPayStyle(context),
                 textAlign: TextAlign.center,
               ),
             ),

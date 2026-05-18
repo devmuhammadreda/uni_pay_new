@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni_pay/uni_pay.dart';
 
-import '../../utils/uni_enums.dart';
-import 'uni_credentials.dart';
-import 'uni_customer_history.dart';
-import 'uni_order.dart';
-import 'uni_pay_customer.dart';
-import 'uni_pay_res.dart';
 
 ///* `UniPayData` is all we need to make a payment request to your desired payment gateway
 class UniPayData {

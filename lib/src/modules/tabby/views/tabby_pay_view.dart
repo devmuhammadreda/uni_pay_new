@@ -32,19 +32,20 @@ class _UniPayTabbyState extends State<UniPayTabby> {
     WebViewResult? prevResultCode;
     return ValueListenableBuilder(
       valueListenable: UniPayControllers.tabbyNotifier,
-      builder: (_, status, __) {
+      builder: (ctx, status, __) {
         final tabbySession = UniPayControllers.tabbySession;
         bool isTabbyAvailable = status.isSuccess &&
             tabbySession != null &&
             tabbySession.availableProducts.installments?.webUrl != null;
         return Scaffold(
             appBar: UniPayDesignSystem.appBar(
+              ctx,
               title: UniPayText.checkoutByTabby,
               isFromRoot: widget.isFromRoot,
               isShowBackButton: status.isLoading ? false : !isTabbyAvailable,
             ),
             body: status.isLoading
-                ? UniPayDesignSystem.loadingIndicator()
+                ? UniPayDesignSystem.loadingIndicator(ctx)
                 : isTabbyAvailable
                     ? TabbyWebView(
                         webUrl: tabbySession
@@ -82,6 +83,7 @@ class _UniPayTabbyState extends State<UniPayTabby> {
                         },
                       )
                     : UniPayDesignSystem.errorView(
+                        ctx,
                         title: UniPayText.paymentFailedByTabby,
                       ));
       },

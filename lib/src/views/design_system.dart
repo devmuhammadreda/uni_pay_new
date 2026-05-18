@@ -3,72 +3,82 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:uni_pay/src/constant/path.dart';
 import 'package:uni_pay/src/core/controllers/uni_pay_controller.dart';
+import 'package:uni_pay/src/theme/colors.dart';
 import 'package:uni_pay/src/utils/extension.dart';
 import 'package:uni_pay/src/utils/extension/size_extension.dart';
-import 'package:uni_pay/uni_pay.dart';
+import 'package:uni_pay/src/views/uni_nav_keys.dart';
 
 import '../constant/uni_text.dart';
-import '../theme/colors.dart';
 
 class UniPayDesignSystem {
+  UniPayDesignSystem._();
+
   ///* Appbar for UniPay
-  static AppBar appBar({
+  static AppBar appBar(
+    BuildContext context, {
     required String title,
     Widget? leading,
     List<Widget> actions = const [],
     PreferredSizeWidget? bottom,
     bool isFromRoot = false,
     bool isShowBackButton = true,
-  }) =>
-      AppBar(
-        elevation: 0,
-        leading: Visibility(
-          visible: isShowBackButton,
-          child: leading ??
-              BackButton(
-                style: ButtonStyle(
-                  iconSize: WidgetStateProperty.all<double>(18.rSp),
-                ),
-                color: UniPayColorsPalletes.black,
-                onPressed: () {
-                  if (isFromRoot) {
-                    UniPayControllers.context.uniPop();
-                  } else {
-                    uniStateKey.currentContext?.uniPop();
-                  }
-                },
+  }) {
+    final scheme = Theme.of(context).colorScheme;
+    return AppBar(
+      elevation: 0,
+      leading: Visibility(
+        visible: isShowBackButton,
+        child: leading ??
+            BackButton(
+              style: ButtonStyle(
+                iconSize: WidgetStateProperty.all<double>(18.rSp),
               ),
+              color: scheme.onSurface,
+              onPressed: () {
+                if (isFromRoot) {
+                  UniPayControllers.context.uniPop();
+                } else {
+                  uniStateKey.currentContext?.uniPop();
+                }
+              },
+            ),
+      ),
+      flexibleSpace: GlassMorphism(
+        sigmaVal: 5,
+        child: Container(color: Colors.transparent),
+      ),
+      backgroundColor: scheme.surface.withAlpha(100),
+      title: Text(
+        title,
+        style: UniPayTheme.uniPayStyle(context).copyWith(
+          color: scheme.onSurface,
+          fontWeight: FontWeight.bold,
+          fontSize: 16.rSp,
         ),
-        flexibleSpace: GlassMorphism(
-          sigmaVal: 5,
-          child: Container(color: UniPayColorsPalletes.transparent),
-        ),
-        backgroundColor: UniPayColorsPalletes.white.withAlpha(100),
-        title: Text(
-          title,
-          style: UniPayTheme.uniPayStyle.copyWith(
-            color: UniPayColorsPalletes.black,
-            fontWeight: FontWeight.bold,
-            fontSize: 16.rSp,
-          ),
-        ),
-        actions: actions,
-        centerTitle: true,
-        bottom: bottom,
-      );
+      ),
+      actions: actions,
+      centerTitle: true,
+      bottom: bottom,
+    );
+  }
 
   ///* Loading Indicator
-  static Widget loadingIndicator() => Center(
+  static Widget loadingIndicator(BuildContext context) => Center(
         child: CircularProgressIndicator.adaptive(
           strokeWidth: 3.rSp,
           valueColor: AlwaysStoppedAnimation<Color>(
-            UniPayColorsPalletes.primaryColor,
+            Theme.of(context).colorScheme.primary,
           ),
         ),
       );
 
   ///* Error View
-  static Widget errorView({String? title, dynamic subTitle}) => Container(
+  static Widget errorView(
+    BuildContext context, {
+    String? title,
+    dynamic subTitle,
+  }) =>
+      Container(
         padding: const EdgeInsets.all(30),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -76,7 +86,7 @@ class UniPayDesignSystem {
           children: [
             Text(
               title ?? UniPayText.somethingWentWrong,
-              style: UniPayTheme.uniPayStyle,
+              style: UniPayTheme.uniPayStyle(context),
               textAlign: TextAlign.center,
             ),
             if (subTitle != null) ...[
@@ -84,8 +94,8 @@ class UniPayDesignSystem {
               Text(
                 subTitle.toString(),
                 textAlign: TextAlign.center,
-                style: UniPayTheme.uniPayStyle.copyWith(
-                  color: UniPayColorsPalletes.greyTextColor,
+                style: UniPayTheme.uniPayStyle(context).copyWith(
+                  color: context.uniPayTokens.greyText,
                 ),
               )
             ]
@@ -94,7 +104,8 @@ class UniPayDesignSystem {
       );
 
   ///* Radio button checkbox
-  static Widget checkBox({
+  static Widget checkBox(
+    BuildContext context, {
     required bool status,
     ValueChanged<bool>? onChange,
     required Color activeColor,
@@ -105,14 +116,16 @@ class UniPayDesignSystem {
           activeColor: activeColor,
           value: status,
           shape: const CircleBorder(),
-          side: BorderSide(color: Colors.grey.colorOpacity(0.3)),
+          side: BorderSide(color: context.uniPayTokens.checkBoxSide),
           onChanged: (v) => onChange?.call(v ?? false),
-          overlayColor: UniPayColorsPalletes.transparentMaterialColor,
+          overlayColor:
+              const WidgetStatePropertyAll<Color>(Colors.transparent),
         ),
       );
 
   ///* Primary button
-  static Widget primaryButton({
+  static Widget primaryButton(
+    BuildContext context, {
     required String title,
     VoidCallback? onPressed,
     bool showLoading = false,
@@ -124,19 +137,23 @@ class UniPayDesignSystem {
     Color? backgroundColor,
     Widget? trailing,
   }) {
-    bool isButtonDisabled = (isDisabled || showLoading);
+    final scheme = Theme.of(context).colorScheme;
+    final tokens = context.uniPayTokens;
+    final bool isButtonDisabled = isDisabled || showLoading;
+    final Color bgResolved = backgroundColor ?? scheme.primary;
+    final Color onPrimary = scheme.onPrimary;
     return InkWell(
       onTap: isButtonDisabled ? null : onPressed,
       child: Container(
         width: width ?? 100.w,
         height: height ?? 50.rSp,
-        margin:
-            EdgeInsets.only(bottom: isBottomBarButton ? 25.rh : marginBottom),
+        margin: EdgeInsets.only(
+            bottom: isBottomBarButton ? 25.rh : marginBottom),
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: isButtonDisabled
-              ? UniPayColorsPalletes.fillColor
-              : backgroundColor ?? UniPayColorsPalletes.primaryColor,
+              ? tokens.fillColor
+              : bgResolved,
           borderRadius: 10.br,
         ),
         child: Visibility(
@@ -147,24 +164,25 @@ class UniPayDesignSystem {
             children: [
               Text(
                 title,
-                style: UniPayTheme.uniPayStyle.copyWith(
+                style: UniPayTheme.uniPayStyle(context).copyWith(
                   color: isButtonDisabled
-                      ? UniPayColorsPalletes.greyTextColor
-                      : UniPayColorsPalletes.white,
+                      ? tokens.greyText
+                      : onPrimary,
                   fontSize: 14.rSp,
                 ),
               ),
               trailing ?? const SizedBox.shrink(),
             ],
           ),
-          child: UniPayDesignSystem.loadingIndicator(),
+          child: UniPayDesignSystem.loadingIndicator(context),
         ),
       ),
     );
   }
 
   /// Title and Subtitle Widget
-  static Widget titleSubTitleWidget({
+  static Widget titleSubTitleWidget(
+    BuildContext context, {
     required String title,
     required String subTitle,
   }) =>
@@ -174,16 +192,15 @@ class UniPayDesignSystem {
         children: [
           Text(
             title,
-            style: UniPayTheme.uniPayStyle.copyWith(
+            style: UniPayTheme.uniPayStyle(context).copyWith(
               fontWeight: FontWeight.w600,
               fontSize: 16.rSp,
             ),
           ),
           Text(
             subTitle,
-            style: UniPayTheme.uniPaySubTitleStyle.copyWith(
+            style: UniPayTheme.uniPaySubTitleStyle(context).copyWith(
               fontSize: 13.rSp,
-              color: Colors.grey[600],
             ),
           )
         ],
@@ -250,29 +267,3 @@ class GlassMorphism extends StatelessWidget {
     ));
   }
 }
-
-// class UniPayScaffold extends StatelessWidget {
-//   final String title;
-//   final Widget Function(BuildContext) builder;
-//   const UniPayScaffold({Key? key, required this.title, required this.builder})
-//       : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       // extendBodyBehindAppBar: true,
-//       appBar: UniPayDesignSystem.appBar(title: title),
-//       body: Consumer<UniPayProivder>(
-//         builder: (_, provider, __) {
-//           if (provider.uniPayCurrentState.isLoading) {
-//             return UniPayDesignSystem.loadingIndicator();
-//           } else if (provider.uniPayCurrentState.isSuccess) {
-//             return builder.call(context);
-//           } else {
-//             return UniPayDesignSystem.errorView();
-//           }
-//         },
-//       ),
-//     );
-//   }
-// }

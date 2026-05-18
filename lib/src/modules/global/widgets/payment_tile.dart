@@ -23,6 +23,8 @@ class PaymentOptionTileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.uniPayTokens;
+    final scheme = Theme.of(context).colorScheme;
     return InkWell(
       onTap: onSelect ??
           () {
@@ -35,9 +37,7 @@ class PaymentOptionTileCard extends StatelessWidget {
           borderRadius: 10.rSp.br,
           border: Border.all(
             width: 1.5.rSp,
-            color: isSelected
-                ? UniPayColorsPalletes.cyan
-                : UniPayColorsPalletes.greyColor5,
+            color: isSelected ? tokens.cyan : tokens.greyColor5,
           ),
         ),
         child: Row(
@@ -49,21 +49,19 @@ class PaymentOptionTileCard extends StatelessWidget {
               width: 22.rSp,
               decoration: BoxDecoration(
                 border: isSelected
-                    ? Border.all(width: 6.rSp, color: UniPayColorsPalletes.cyan)
+                    ? Border.all(width: 6.rSp, color: tokens.cyan)
                     : null,
                 shape: BoxShape.circle,
-                color: isSelected
-                    ? UniPayColorsPalletes.white
-                    : UniPayColorsPalletes.greyColor5,
+                color: isSelected ? scheme.surface : tokens.greyColor5,
               ),
             ),
             Expanded(
               child: Text(
                 title ?? paymentMethod.title,
-                style: UniPayTheme.uniPayStyle.copyWith(
+                style: UniPayTheme.uniPayStyle(context).copyWith(
                   fontWeight: FontWeight.w500,
                   fontSize: 13.5.rSp,
-                  color: UniPayColorsPalletes.grayTextColor,
+                  color: tokens.grayTextColor,
                 ),
               ),
             ),

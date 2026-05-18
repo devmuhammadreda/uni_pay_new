@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:uni_pay/src/constant/uni_text.dart';
-import 'package:uni_pay/src/views/widgets/uni_pay_view_handler.dart';
-import 'package:uni_pay/uni_pay.dart';
 
 import '../constant/locale.dart';
-
+import '../constant/uni_text.dart';
 import '../core/controllers/uni_pay_controller.dart';
+import '../core/models/uni_pay_data.dart';
 import '../theme/colors.dart';
-
-final uniStateKey = GlobalKey<NavigatorState>();
+import 'uni_nav_keys.dart';
+import 'widgets/uni_pay_view_handler.dart';
 
 class UniPay extends StatefulWidget {
   ///* Provide the context of the app
@@ -41,15 +39,17 @@ class _UniPayState extends State<UniPay> {
   @override
   Widget build(BuildContext context) {
     final uniPayData = widget.uniPayData;
+    final themeData = uniPayData.uniPayThemeData;
     UniPayText.isEnglish = uniPayData.locale.isEnglish;
-    UniPayColorsPalletes.primaryColor = uniPayData.uniPayThemeData.primaryColor;
 
     return MaterialApp(
       navigatorKey: uniStateKey,
       debugShowCheckedModeBanner: false,
       localizationsDelegates: LocalizationsData.localizationsDelegate,
       supportedLocales: LocalizationsData.supportLocale,
-      theme: UniPayTheme.theme,
+      theme: UniPayTheme.themeFor(themeData, Brightness.light),
+      darkTheme: UniPayTheme.themeFor(themeData, Brightness.dark),
+      themeMode: themeData.themeMode,
       locale: uniPayData.locale.currentLocale,
       home: UniPayViewHandler(child: widget.child),
     );

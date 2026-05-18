@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:uni_pay/src/constant/path.dart';
 import 'package:uni_pay/src/constant/uni_text.dart';
 import 'package:uni_pay/src/core/controllers/uni_pay_controller.dart';
-import 'package:uni_pay/src/modules/global/widgets/coupon_field.dart';
 import 'package:uni_pay/src/utils/extension.dart';
 import 'package:uni_pay/src/utils/extension/size_extension.dart';
 import 'package:uni_pay/src/views/design_system.dart';
@@ -32,13 +31,16 @@ class _UniPayPaymentOptionsViewState extends State<UniPayPaymentOptionsView> {
     final uniPayTheme = uniPayDto.uniPayThemeData;
     return ValueListenableBuilder(
         valueListenable: UniPayControllers.uniPayPaymentMethods,
-        builder: (_, paymentMethod, __) {
+        builder: (context, paymentMethod, __) {
+          final scheme = Theme.of(context).colorScheme;
+          final tokens = context.uniPayTokens;
           final transactionInfo = uniPayDto.orderInfo.transactionAmount;
           final paymentMethods = uniPayDto.credentials.paymentMethods;
           final couponCredential = uniPayDto.credentials.couponCredential;
           return Scaffold(
             appBar: uniPayTheme.uiType.isModernWithAppBar
                 ? UniPayDesignSystem.appBar(
+                    context,
                     title: uniPayTheme.appBarTitle ?? UniPayText.checkout,
                     isFromRoot: true,
                   )
@@ -53,6 +55,7 @@ class _UniPayPaymentOptionsViewState extends State<UniPayPaymentOptionsView> {
                     Padding(
                       padding: EdgeInsets.only(bottom: 10.rh),
                       child: UniPayDesignSystem.titleSubTitleWidget(
+                        context,
                         title: uniPayTheme.headerTitle ??
                             UniPayText.yourPaymentMethod,
                         subTitle: uniPayTheme.headerSubtitle ??
@@ -108,11 +111,12 @@ class _UniPayPaymentOptionsViewState extends State<UniPayPaymentOptionsView> {
               decoration: BoxDecoration(
                 border: Border(
                     top: BorderSide(
-                  color: UniPayColorsPalletes.greyBorderColor,
+                  color: tokens.greyBorderColor,
                   width: 1.rSp,
                 )),
               ),
               child: UniPayDesignSystem.primaryButton(
+                context,
                 isBottomBarButton: true,
                 isDisabled: paymentMethod.isNotSpecified,
                 title:
@@ -121,8 +125,8 @@ class _UniPayPaymentOptionsViewState extends State<UniPayPaymentOptionsView> {
                   "${UniAssetsPath.icons}/sar.png",
                   size: 13.rSp,
                   color: paymentMethod.isNotSpecified
-                      ? UniPayColorsPalletes.greyTextColor
-                      : UniPayColorsPalletes.white,
+                      ? tokens.greyText
+                      : scheme.onPrimary,
                 ),
                 onPressed: () {
                   // Go to Tamara view

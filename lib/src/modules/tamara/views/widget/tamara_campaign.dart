@@ -27,6 +27,9 @@ class TamaraCampaign extends StatelessWidget {
   Widget build(BuildContext context) {
     UniPayText.isEnglish = campaign.locale.isEnglish;
 
+    final scheme = Theme.of(context).colorScheme;
+    final onSurf = scheme.onSurface;
+
     return InkWell(
       onTap: () {
         if (!isFromProductPage) _openTamaraPaymentDialog();
@@ -36,7 +39,7 @@ class TamaraCampaign extends StatelessWidget {
         padding: EdgeInsets.all(10.rSp),
         decoration: BoxDecoration(
           border:
-              Border.all(color: UniPayColorsPalletes.black.colorOpacity(.1)),
+              Border.all(color: onSurf.withValues(alpha: 0.1)),
           borderRadius: 10.br,
         ),
         child: Row(
@@ -51,15 +54,15 @@ class TamaraCampaign extends StatelessWidget {
                     text: isFromProductPage
                         ? UniPayText.tamaraCampaign1
                         : UniPayText.tamaraCheckoutTitle,
-                    style: UniPayTheme.uniPaySubTitleStyle,
+                    style: UniPayTheme.uniPaySubTitleStyle(context),
                     children: isFromProductPage
                         ? [
                             TextSpan(
                               text: UniPayText.sar(
                                   campaign.transactionAmount.bnplSplitBy3),
-                              style: UniPayTheme.uniPayStyle.copyWith(
+                              style: UniPayTheme.uniPayStyle(context).copyWith(
                                 fontWeight: FontWeight.w600,
-                                color: UniPayColorsPalletes.black,
+                                color: onSurf,
                               ),
                             ),
                             TextSpan(
@@ -67,10 +70,10 @@ class TamaraCampaign extends StatelessWidget {
                             ),
                             TextSpan(
                               text: " ${UniPayText.learnMore}",
-                              style: UniPayTheme.uniPayStyle.copyWith(
+                              style: UniPayTheme.uniPayStyle(context).copyWith(
                                 fontWeight: FontWeight.w500,
                                 decoration: TextDecoration.underline,
-                                color: UniPayColorsPalletes.black,
+                                color: onSurf,
                               ),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () => _openTamaraPaymentDialog(),

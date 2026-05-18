@@ -19,10 +19,10 @@ class SecureText extends StatelessWidget {
         ),
         Text(
           UniPayText.cardDataSecured,
-          style: UniPayTheme.uniPaySubTitleStyle.copyWith(
+          style: UniPayTheme.uniPaySubTitleStyle(context).copyWith(
             fontWeight: FontWeight.normal,
             fontSize: 12.5.rSp,
-            color: UniPayColorsPalletes.greyTextColor,
+            color: context.uniPayTokens.greyText,
           ),
         ),
       ],

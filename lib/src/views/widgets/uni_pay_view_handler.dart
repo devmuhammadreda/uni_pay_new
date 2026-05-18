@@ -28,7 +28,7 @@ class _UniPayViewHandlerState extends State<UniPayViewHandler> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: UniPayDesignSystem.loadingIndicator());
+    return Scaffold(body: UniPayDesignSystem.loadingIndicator(context));
   }
 
   Future _viewHandler() async {

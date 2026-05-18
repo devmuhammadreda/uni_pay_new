@@ -74,6 +74,10 @@ UniPayData uniPayData = UniPayData(
   ),
   themeData: UniPayThemeData(
     uiType: UniPayUIType.modernWithAppBar,
+
+    /// Follows OS light/dark. Use [ThemeMode.light], [ThemeMode.dark], or
+    /// override [UniPayThemeData.primaryColor].
+    themeMode: ThemeMode.dark,
   ),
   environment: UniPayEnvironment.development,
   credentials: UniPayCredentials(

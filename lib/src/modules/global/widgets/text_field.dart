@@ -3,7 +3,7 @@ import 'package:uni_pay/src/theme/colors.dart';
 import 'package:uni_pay/src/utils/extension.dart';
 import 'package:uni_pay/src/utils/extension/size_extension.dart';
 import 'package:uni_pay/src/views/design_system.dart';
-import 'package:uni_pay/uni_pay.dart';
+import 'package:uni_pay/src/views/uni_nav_keys.dart';
 
 class UniPayTextField extends StatefulWidget {
   const UniPayTextField({
@@ -57,23 +57,29 @@ class UniPayTextField extends StatefulWidget {
 class _UniPayTextFieldState extends State<UniPayTextField> {
   @override
   Widget build(BuildContext context) {
+    final tokens = context.uniPayTokens;
+    final scheme = Theme.of(context).colorScheme;
     return AnimatedContainer(
       duration: UniPayDesignSystem.kDefaultDuration,
       decoration: BoxDecoration(
         borderRadius: 10.rSp.br,
         color: widget.focus == null
-            ? UniPayColorsPalletes.transparent
+            ? Colors.transparent
             : widget.focus?.hasFocus == true
-                ? UniPayColorsPalletes.transparent
-                : UniPayColorsPalletes.greyBorderColor,
+                ? Colors.transparent
+                : tokens.greyBorderColor,
         border:
-            Border.all(color: UniPayColorsPalletes.greyColor5, width: 1.5.rSp),
+            Border.all(color: tokens.greyColor5, width: 1.5.rSp),
       ),
       child: ClipRRect(
         borderRadius: 10.rSp.br,
         child: TextFormField(
-          onTapOutside: (event) =>
-              FocusScope.of(uniStateKey.currentContext!).unfocus(),
+          onTapOutside: (event) {
+            final scope = uniStateKey.currentContext;
+            if (scope != null) {
+              FocusScope.of(scope).unfocus();
+            }
+          },
           key: widget.key,
           controller: widget.controller,
           focusNode: widget.focus,
@@ -85,11 +91,12 @@ class _UniPayTextFieldState extends State<UniPayTextField> {
           },
           autovalidateMode: AutovalidateMode.onUserInteraction,
           style: UniPayTheme.defaultTitle500Style(
+            context,
             color: widget.enabled
-                ? UniPayColorsPalletes.secondaryColor
-                : UniPayColorsPalletes.greyColor3,
+                ? tokens.secondaryText
+                : tokens.greyColor3,
           ),
-          cursorColor: UniPayColorsPalletes.primaryColor,
+          cursorColor: scheme.primary,
           readOnly: widget.isReadOnly,
           textAlign: widget.textAlign ?? TextAlign.start,
           enabled: widget.enabled,
@@ -115,14 +122,14 @@ class _UniPayTextFieldState extends State<UniPayTextField> {
             suffixIcon: widget.suffixIcon,
             prefixIcon: widget.prefixIcon,
             labelText: widget.labelText,
-            labelStyle: UniPayTheme.defaultTitle500Style(
-                color: UniPayColorsPalletes.greyColor3),
+            labelStyle: UniPayTheme.defaultTitle500Style(context,
+                color: tokens.greyColor3),
             hintText: widget.hintText,
-            hintStyle: UniPayTheme.title13Style400,
+            hintStyle: UniPayTheme.title13Style400(context),
             alignLabelWithHint: true,
             filled: true,
             isDense: true,
-            fillColor: widget.fillColor ?? UniPayColorsPalletes.transparent,
+            fillColor: widget.fillColor ?? Colors.transparent,
             contentPadding: widget.contentPadding ??
                 EdgeInsets.symmetric(horizontal: 12.rSp, vertical: 13.rSp),
             border: InputBorder.none,
@@ -132,7 +139,7 @@ class _UniPayTextFieldState extends State<UniPayTextField> {
                     borderRadius: 10.rSp.br,
                     gapPadding: 0,
                     borderSide: BorderSide(
-                      color: UniPayColorsPalletes.greyColor8,
+                      color: tokens.greyColor8,
                       width: 1.5.rSp,
                     ),
                   )
@@ -142,7 +149,7 @@ class _UniPayTextFieldState extends State<UniPayTextField> {
                     borderRadius: 10.rSp.br,
                     gapPadding: 0,
                     borderSide: BorderSide(
-                      color: UniPayColorsPalletes.redColor,
+                      color: tokens.redColor,
                       width: 2.rSp,
                     ),
                   )
