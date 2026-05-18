@@ -40,7 +40,8 @@ class UniPayText {
       "Please provide Moyasar secret credentials to proceed the payment";
   static String noGatewayProvided =
       "No payment gateway provided, please provide one of the following gateways: [UniPayPaymentMethods.card]";
-
+  static String get paymentSuccessful =>
+      isEnglish ? "Your payment was successful!" : "تم الدفع بنجاح!";
   static String get paymentFailed => isEnglish
       ? "Sorry, your payment was failed, make sure you have the enough balance on your card or the online payment is enabled for your card."
       : "عذرًا ، فشل الدفع الخاص بك ، تأكد من أن لديك رصيدًا كافيًا في بطاقتك أو تم تمكين الدفع عبر الإنترنت لبطاقتك.";

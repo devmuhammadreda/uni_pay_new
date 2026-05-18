@@ -41,9 +41,23 @@ class _PaymentResultViewState extends State<PaymentResultView> {
     setState(() {});
   }
 
+  String getPaymentStatusTitle() {
+    final status = UniPayControllers.uniPayStatus;
+    if (status.isCancelled) {
+      return UniPayText.paymentCancelled;
+    } else if (status.isFailed && widget.paymentMethod.isTabby) {
+      return UniPayText.paymentFailedByTabby;
+    } else if (status.isFailed && widget.paymentMethod.isTamara) {
+      return UniPayText.paymentFailedByTamara;
+    } else if (status.isFailed) {
+      return UniPayText.paymentFailed;
+    } else {
+      return UniPayText.paymentSuccessful;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final status = UniPayControllers.uniPayStatus;
     return Scaffold(
         appBar: UniPayDesignSystem.appBar(
           leading: Container(),
@@ -65,11 +79,7 @@ class _PaymentResultViewState extends State<PaymentResultView> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.rw),
               child: Text(
-                status.isCancelled
-                    ? UniPayText.paymentCancelled
-                    : (status.isFailed && widget.paymentMethod.isTabby)
-                        ? UniPayText.paymentFailedByTabby
-                        : UniPayText.paymentFailed,
+                getPaymentStatusTitle(),
                 style: UniPayTheme.uniPayStyle,
                 textAlign: TextAlign.center,
               ),
