@@ -80,28 +80,28 @@ class UniPayControllers {
   }) async {
     uniPayStatus = response.status;
 
-    if (!isFromApplePay) {
-      // Navigate to payment result view
-      context
-          .uniPushReplacement(PaymentResultView(paymentMethod: paymentMethod));
-      await Future.delayed(const Duration(seconds: 2));
+    // if (!isFromApplePay) {
+    //   // Navigate to payment result view
+    //   context
+    //       .uniPushReplacement(PaymentResultView(paymentMethod: paymentMethod));
+    //   await Future.delayed(const Duration(seconds: 2));
 
-      /// Pop the payment result view and go back to the previous screen
-      // UniPayControllers.context.uniParentPop();
-      // On success go back to the app screen
+    //   /// Pop the payment result view and go back to the previous screen
+    //   // UniPayControllers.context.uniParentPop();
+    //   // On success go back to the app screen
 
-      if (uniPayStatus.isSuccess) {
-        // UniPayControllers.context.uniParentPop();
-      }
-      // On failed go back to the payment screen again!
-      else {
-        if (isFromRootView) {
-          UniPayControllers.context.uniParentPop();
-        } else {
-          uniStateKey.currentContext?.uniParentPop();
-        }
-      }
-    }
+    //   if (uniPayStatus.isSuccess) {
+    //     UniPayControllers.context.uniParentPop();
+    //   }
+    //   // On failed go back to the payment screen again!
+    //   else {
+    //     if (isFromRootView) {
+    //       UniPayControllers.context.uniParentPop();
+    //     } else {
+    //       uniStateKey.currentContext?.uniParentPop();
+    //     }
+    //   }
+    // }
 
     //* Success
     if (response.status.isSuccess) {
